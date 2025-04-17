@@ -9,8 +9,9 @@ include 'config/config.php';
 header('Content-Type: application/json');
 
 // Secret keys
-$jwtSecretKey = 'your_jwt_secret';
-$refreshTokenSecret = 'your_refresh_token_secret';
+include 'secret.php'; 
+
+
 
 // Get JSON input
 $input = json_decode(file_get_contents('php://input'), true);
