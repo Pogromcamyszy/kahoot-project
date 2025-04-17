@@ -44,6 +44,15 @@ if ($checkQuery->rowCount() > 0) {
     exit;
 }
 
+$checkNick = $conn->prepare("SELECT user_id FROM users WHERE nickname = ?");
+$checkNick->execute([$nickname]);
+
+if ($checkNick->rowCount() > 0) {
+    echo json_encode(["error" => "Nickname already taken"]);
+    http_response_code(409);
+    exit;
+}
+
 // Insert new user into the database
 $query = "INSERT INTO users (nickname, email, password) VALUES (?, ?, ?)";
 $stmt = $conn->prepare($query);
