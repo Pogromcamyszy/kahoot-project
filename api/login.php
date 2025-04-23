@@ -38,7 +38,7 @@ if (!$user || !password_verify($password, $user['password'])) {
 
 // Generate JWT access token
 $issuedAt = time();
-$expirationTime = $issuedAt + 120; // 1 hour
+$expirationTime = $issuedAt + 36000; // 1 hour
 $payload = [
     'iss' => 'localhost',
     'iat' => $issuedAt,
