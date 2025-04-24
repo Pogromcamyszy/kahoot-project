@@ -3,12 +3,6 @@ header('Content-Type: application/json');
 include('config/config.php'); 
 include_once 'verifyJwt.php'; 
 
-// Ensure user is authenticated
-if (!isset($user['data']->user_id)) {
-    http_response_code(401);
-    echo json_encode(['error' => 'Unauthorized']);
-    exit;
-}
 
 $quizes = $conn->prepare("SELECT quiz_id, title FROM quizzes");
 $quizes->execute();

@@ -3,12 +3,6 @@ header('Content-Type: application/json');
 include('config/config.php'); 
 include_once 'verifyJwt.php'; 
 
-// Ensure user is authenticated
-if (!isset($user['data']->user_id)) {
-    http_response_code(401);
-    echo json_encode(['error' => 'Unauthorized']);
-    exit;
-}
 
 // Read JSON input
 $data = json_decode(file_get_contents('php://input'), true);
@@ -24,7 +18,7 @@ $quizId = (int) $data['quiz_id'];
 
 try {
     // Fetch all questions for the given quiz_id
-    $stmt = $conn->prepare("SELECT question, a, b, c, d, answer FROM questions WHERE quiz_id = :quiz_id");
+    $stmt = $conn->prepare("SELECT question_id,question, a, b, c, d FROM questions WHERE quiz_id = :quiz_id");
     $stmt->bindParam(':quiz_id', $quizId, PDO::PARAM_INT);
     $stmt->execute();
 
