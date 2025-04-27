@@ -30,12 +30,44 @@
     }
  }
 
- if($areQuestionsValid){
-    echo "correct";
+ // if questions are invalid sends response
+ if(!$areQuestionsValid)
+ {   
+      http_response_code(400);
+      echo json_encode(array("message" => "Invalid questions IDs"));
+      exit;
  }
 
- else{
-    echo "incorrect";
+ // make attempt and insert into attempts table
+ try{
+   $stmt = $conn->prepare("INSERT INTO attempts (user_id, quiz_id) VALUES (:user_id, :quiz_id)");
+   $stmt->bindParam(':user_id', $userId);
+   $stmt->bindParam(':quiz_id', $quizId);
+   $stmt->execute();
+   $attemptId = $conn->lastInsertId();
+   echo $attemptId;
  }
+ catch(PDOException $e){
+   http_response_code(500);
+   echo json_encode(array("message" => "Error inserting quiz attempt: " . $e->getMessage()));
+   exit;
+ }
+
+ try{
+   // insert answers into answers table
+   $stmt = $conn->prepare("INSERT INTO anserws (attempt_id, question_id, answer) VALUES (:attempt_id, :question_id, :answer)");
+   foreach ($answers as $item) {
+       $stmt->bindParam(':attempt_id', $attemptId);
+       $stmt->bindParam(':question_id', $item['question_id']);
+       $stmt->bindParam(':answer', $item['answer']);
+       $stmt->execute();
+   }
+   echo json_encode(array("message" => "Quiz attempt recorded successfully"));
+ } catch(PDOException $e) {
+   http_response_code(500);
+   echo json_encode(array("message" => "Error inserting answers: " . $e->getMessage()));
+   exit;
+ }
+ 
 
  ?>
