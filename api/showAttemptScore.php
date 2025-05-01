@@ -2,6 +2,9 @@
 include_once 'config/config.php';
 include_once 'verifyToken.php';
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type");
+
 $data = json_decode(file_get_contents("php://input"));
 if (!isset($data->attempt_id)) {
     http_response_code(400);

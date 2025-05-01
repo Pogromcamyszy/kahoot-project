@@ -4,6 +4,8 @@ require 'vendor/autoload.php'; // Make sure this path is correct
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type");
 
 include 'secret.php'; 
 

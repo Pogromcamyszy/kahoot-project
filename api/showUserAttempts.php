@@ -2,6 +2,9 @@
 include 'config/config.php';
 include_once 'verifyJwt.php';
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type");
+
 $userId = (int) $user['data']->user_id;
 
 $stmt = $conn->prepare("

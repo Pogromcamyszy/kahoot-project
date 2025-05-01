@@ -6,6 +6,8 @@ use Firebase\JWT\Key;
 
 include 'config/config.php'; 
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
 
 // Secret keys
